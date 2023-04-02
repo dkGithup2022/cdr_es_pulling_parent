@@ -1,0 +1,11 @@
+spring:
+  elasticsearch:
+    port: 9200
+    host: localhost
+    rest:
+      connection-pool:
+        size: 100
+
+logging:
+  level:
+    tracer: TRACE
