@@ -26,7 +26,7 @@ public class UpbitTickCron extends UpbitCronBase<UpbitTickDoc, UpbitTickReposito
         type = TYPE;
     }
 
-    @Scheduled(cron = "00 */2 * * * *")
+    @Scheduled(cron = "00 * * * * *")
     public void cron() throws InterruptedException {
         run();
     }

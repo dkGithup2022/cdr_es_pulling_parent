@@ -5,8 +5,6 @@ import com.dk0124.cdr.es.dao.upbit.UpbitCandleRepository;
 import com.dk0124.cdr.es.dao.upbit.UpbitOrderbookRepository;
 import com.dk0124.cdr.es.dao.upbit.UpbitTickRepository;
 import com.dk0124.cdr.es.document.upbit.UpbitCandleDoc;
-import com.dk0124.cdr.es.document.upbit.UpbitOrderbookDoc;
-import com.dk0124.cdr.es.document.upbit.UpbitTickDoc;
 import com.dk0124.cdr.pullapp.cron.ElasticTestContainer;
 import com.dk0124.cdr.pullapp.cron.EsIndexOps;
 import com.dk0124.cdr.pullapp.cron.upbit.UpbitCandleCron;
@@ -99,7 +97,6 @@ class UpbitCronTest {
         // Run the cron job manually
         UpbitCandleCron cron = upbitCandleCron;
         cron.run();
-
 
         // Wait for Elasticsearch indexing to complete
         Thread.sleep(3000);

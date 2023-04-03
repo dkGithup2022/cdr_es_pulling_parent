@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-@Component
+
 @Slf4j
 public abstract class UpbitCronBase<T, R extends ElasticsearchRepository> {
     protected final ObjectMapper objectMapper;
@@ -42,7 +42,7 @@ public abstract class UpbitCronBase<T, R extends ElasticsearchRepository> {
     public List<T> reqApi(String url) throws InterruptedException {
         RestTemplate restTemplate = new RestTemplate();
 
-        // API request retry logic
+        // API request retry logic , 429 에러에 3번까지 재호출
         int maxRetries = 3;
         for (int i = 0; i < maxRetries; i++) {
             try {
