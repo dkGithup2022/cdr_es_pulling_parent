@@ -1,29 +1,28 @@
-package com.dk0124.cdr.pullapp.cron;
+package com.dk0124.cdr.pullapp.cron.upbit;
 
 import com.dk0124.cdr.constants.Uri;
 import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
-import com.dk0124.cdr.constants.vendor.VendorType;
-import com.dk0124.cdr.es.dao.ElasticsearchRepository;
 import com.dk0124.cdr.es.dao.upbit.UpbitCandleRepository;
 import com.dk0124.cdr.es.document.upbit.UpbitCandleDoc;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 
 @Component
 @Slf4j
 public class UpbitCandleCron extends UpbitCronBase<UpbitCandleDoc, UpbitCandleRepository> {
+    private final String UPBIT_CANDLE_INDEX_PREFIX = "upbit_candle";
+    private final String TYPE = "candle";
+
     public UpbitCandleCron(ObjectMapper objectMapper, UpbitCandleRepository respository) {
         super(objectMapper, respository, new UpbitCandleDoc());
-        type = "candle";
+        type = TYPE;
     }
 
     @Scheduled(cron = "00 * * * * *")
@@ -43,17 +42,16 @@ public class UpbitCandleCron extends UpbitCronBase<UpbitCandleDoc, UpbitCandleRe
 
     @Override
     protected String getIndex(UpbitCandleDoc doc) {
-        String UpbitCandlePrefix = "upbit_candle";
         if (UpbitCoinCode.fromString(doc.getMarket()) == null)
             throw new RuntimeException("INVALID CODE");
+
         String[] splitted = doc.getMarket().toLowerCase(Locale.ROOT).split("-");
-        return UpbitCandlePrefix + "_" + String.join("_", splitted);
+        return UPBIT_CANDLE_INDEX_PREFIX + "_" + String.join("_", splitted);
     }
 
     @Override
     protected String generateId(UpbitCandleDoc candle) {
         return candle.getMarket() + "_" + candle.getTimestamp();
     }
-
 
 }

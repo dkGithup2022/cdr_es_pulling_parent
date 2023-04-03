@@ -1,4 +1,4 @@
-package com.dk0124.cdr.pullapp.cron;
+package com.dk0124.cdr.pullapp.cron.upbit;
 
 import com.dk0124.cdr.constants.Uri;
 import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
@@ -12,20 +12,22 @@ import java.util.Locale;
 
 @Component
 public class UpbitOrderbookCron extends UpbitCronBase<UpbitOrderbookDoc, UpbitOrderbookRepository> {
+    private final String UPBIT_ORDERBOOK_INDEX_PREFIX = "upbit_orderbook";
+    private final String TYPE = "orderbook";
 
     public UpbitOrderbookCron(ObjectMapper objectMapper, UpbitOrderbookRepository respository) {
         super(objectMapper, respository, new UpbitOrderbookDoc());
-        type = "orderbook";
+        type = TYPE;
     }
 
 
     @Override
     protected String getIndex(UpbitOrderbookDoc doc) {
-        String UpbitCandlePrefix = "upbit_orderbook";
+
         if (UpbitCoinCode.fromString(doc.getCode()) == null)
             throw new RuntimeException("INVALID CODE");
         String[] splitted = doc.getCode().toLowerCase(Locale.ROOT).split("-");
-        return UpbitCandlePrefix + "_" + String.join("_", splitted);
+        return UPBIT_ORDERBOOK_INDEX_PREFIX + "_" + String.join("_", splitted);
     }
 
     @Override

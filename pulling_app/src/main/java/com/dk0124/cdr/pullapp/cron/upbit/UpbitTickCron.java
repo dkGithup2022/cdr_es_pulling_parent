@@ -1,4 +1,4 @@
-package com.dk0124.cdr.pullapp.cron;
+package com.dk0124.cdr.pullapp.cron.upbit;
 
 import com.dk0124.cdr.constants.Uri;
 import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
@@ -17,9 +17,12 @@ import java.util.Locale;
 @Component
 @Slf4j
 public class UpbitTickCron extends UpbitCronBase<UpbitTickDoc, UpbitTickRespository> {
-    public UpbitTickCron(ObjectMapper objectMapper, UpbitTickRespository respository) {
-        super(objectMapper, respository, new UpbitTickDoc());
-        type = "tick";
+    private final String UPBIT_TICK_INDEX_PREFIX = "upbit_tick";
+    private final String TYPE = "tick";
+
+    public UpbitTickCron(ObjectMapper objectMapper, UpbitTickRespository repository) {
+        super(objectMapper, repository, new UpbitTickDoc());
+        type = TYPE;
     }
 
     @Scheduled(cron = "00 */2 * * * *")
@@ -40,7 +43,7 @@ public class UpbitTickCron extends UpbitCronBase<UpbitTickDoc, UpbitTickResposit
 
     @Override
     protected String getIndex(UpbitTickDoc doc) {
-        String UpbitCandlePrefix = "upbit_tick";
+        String UpbitCandlePrefix = UPBIT_TICK_INDEX_PREFIX;
         if (UpbitCoinCode.fromString(doc.getCode()) == null)
             throw new RuntimeException("INVALID CODE");
         String[] splitted = doc.getCode().toLowerCase(Locale.ROOT).split("-");
