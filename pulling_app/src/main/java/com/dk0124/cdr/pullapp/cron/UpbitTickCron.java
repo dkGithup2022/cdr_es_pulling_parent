@@ -13,11 +13,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+
 @Component
 @Slf4j
 public class UpbitTickCron extends UpbitCronBase<UpbitTickDoc, UpbitTickRespository> {
-    public UpbitTickCron(ObjectMapper objectMapper, UpbitTickRespository respository, UpbitTickDoc dummy) {
-        super(objectMapper, respository, dummy);
+    public UpbitTickCron(ObjectMapper objectMapper, UpbitTickRespository respository) {
+        super(objectMapper, respository, new UpbitTickDoc());
         type = "tick";
     }
 

@@ -1,6 +1,7 @@
 package com.dk0124.cdr.pullapp.cron;
 
 import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
+import com.dk0124.cdr.constants.vendor.VendorType;
 import com.dk0124.cdr.es.dao.ElasticsearchRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
@@ -22,8 +23,9 @@ public abstract class UpbitCronBase<T, R extends ElasticsearchRepository> {
     private final R respository;
 
     private final JavaType docType;
+    private final JavaType docListType;
 
-    //protected final String vendor = VendorType.UPBIT.name;
+    protected final String vendor = VendorType.UPBIT.name;
     protected String type;
 
 
@@ -33,6 +35,10 @@ public abstract class UpbitCronBase<T, R extends ElasticsearchRepository> {
 
         //Generic to JavaType
         this.docType = objectMapper.getTypeFactory().constructType(dummy.getClass());
+        this.docListType = objectMapper.getTypeFactory().
+                constructCollectionType(
+                        ArrayList.class,
+                        dummy.getClass());
     }
 
 
@@ -40,9 +46,7 @@ public abstract class UpbitCronBase<T, R extends ElasticsearchRepository> {
         Long currentTimeMillis = System.currentTimeMillis();
         for (UpbitCoinCode code : UpbitCoinCode.values()) {
             String url = getApiUrl(code, currentTimeMillis);
-            log.info("req url : ", url);
             List<T> list = reqApi(url);
-            log.info("res : ", list);
             saveAll(list);
         }
     }
