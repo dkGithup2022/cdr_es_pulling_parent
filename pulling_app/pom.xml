@@ -16,11 +16,13 @@
             <artifactId>cdr_common_constant_1.0</artifactId>
             <version>1.0-api</version>
         </dependency>
+
         <dependency>
             <groupId>com.dk0124.cdr</groupId>
             <artifactId>cdr_es</artifactId>
             <version>0.5</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-elasticsearch</artifactId>
@@ -44,8 +46,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
-
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -68,12 +68,6 @@
         </dependency>
 
 
-        <!-- candle_mapping.json 저장 용 ENUMERATION  -->
-        <dependency>
-            <groupId>com.dk0124.cdr</groupId>
-            <artifactId>cdr_common_constant_1.0</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
 
 

@@ -2,7 +2,8 @@ package com.dk0124.cdr.pullapp.cron.upbit;
 
 import com.dk0124.cdr.constants.Uri;
 import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
-import com.dk0124.cdr.es.dao.upbit.UpbitTickRespository;
+
+import com.dk0124.cdr.es.dao.upbit.UpbitTickRepository;
 import com.dk0124.cdr.es.document.upbit.UpbitTickDoc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -16,11 +17,11 @@ import java.util.Locale;
 
 @Component
 @Slf4j
-public class UpbitTickCron extends UpbitCronBase<UpbitTickDoc, UpbitTickRespository> {
+public class UpbitTickCron extends UpbitCronBase<UpbitTickDoc, UpbitTickRepository> {
     private final String UPBIT_TICK_INDEX_PREFIX = "upbit_tick";
     private final String TYPE = "tick";
 
-    public UpbitTickCron(ObjectMapper objectMapper, UpbitTickRespository repository) {
+    public UpbitTickCron(ObjectMapper objectMapper, UpbitTickRepository repository) {
         super(objectMapper, repository, new UpbitTickDoc());
         type = TYPE;
     }
