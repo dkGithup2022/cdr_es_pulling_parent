@@ -5,6 +5,7 @@ import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
 
 import com.dk0124.cdr.es.dao.upbit.UpbitTickRepository;
 import com.dk0124.cdr.es.document.upbit.UpbitTickDoc;
+import com.dk0124.cdr.pullapp.cron.UpbitCronBase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,16 +18,16 @@ import java.util.Locale;
 
 @Component
 @Slf4j
-public class UpbitTickCron extends UpbitCronBase<UpbitTickDoc, UpbitTickRepository> {
+public class UpbitTickUpbitCron extends UpbitCronBase<UpbitTickDoc, UpbitTickRepository> {
     private final String UPBIT_TICK_INDEX_PREFIX = "upbit_tick";
     private final String TYPE = "tick";
 
-    public UpbitTickCron(ObjectMapper objectMapper, UpbitTickRepository repository) {
+    public UpbitTickUpbitCron(ObjectMapper objectMapper, UpbitTickRepository repository) {
         super(objectMapper, repository, new UpbitTickDoc());
         type = TYPE;
     }
 
-    @Scheduled(cron = "00 * * * * *")
+    //@Scheduled(cron = "00 * * * * *")
     public void cron() throws InterruptedException {
         run();
     }

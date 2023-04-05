@@ -199,5 +199,22 @@ public abstract class UpbitCronBase<T, R extends ElasticsearchRepository> {
     }
 ```
 
+</br>
+
+---
+
+### 앞으로 남은 것들
+
+1. 현재 통합 테스트 중, 도큐먼트 인덱싱이 바로 되지 않아 테스트 결과가 올바르지 않게 나오는 경우가 있음 .
+
+-  resources/elastic/settings 의 세팅을 바꿔도  testcontianer의 es 가 너무 느려서 제때 동작하지 않음 .
+
+- 현재는 settings 에서 refresh interval 을 immediate 로 변경 후. timeout 을 길게 두고 진행함.
+
+</br>
+
+2. cdr_elasticsearch 에 bulk insert 기능 넣고 크론에 쓰는  함수 바꾸기 .
+
+
 
 

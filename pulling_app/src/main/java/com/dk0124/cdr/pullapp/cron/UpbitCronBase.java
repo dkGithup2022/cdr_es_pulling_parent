@@ -1,4 +1,4 @@
-package com.dk0124.cdr.pullapp.cron.upbit;
+package com.dk0124.cdr.pullapp.cron;
 
 import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
 import com.dk0124.cdr.es.dao.ElasticsearchRepository;
@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -41,13 +40,12 @@ public abstract class UpbitCronBase<T, R extends ElasticsearchRepository> {
 
     public List<T> reqApi(String url) throws InterruptedException {
         RestTemplate restTemplate = new RestTemplate();
-
         // API request retry logic , 429 에러에 3번까지 재호출
         int maxRetries = 3;
         for (int i = 0; i < maxRetries; i++) {
             try {
                 ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-                return objectMapper.readValue(response.getBody(), objectMapper.getTypeFactory().constructCollectionType(List.class, docType));
+                return parseResponse(response);
             } catch (HttpClientErrorException e) {
                 if (e.getRawStatusCode() == 429) {
                     Thread.sleep(500);
@@ -60,6 +58,11 @@ public abstract class UpbitCronBase<T, R extends ElasticsearchRepository> {
         }
 
         return Collections.emptyList();
+    }
+
+
+    protected List<T> parseResponse(ResponseEntity<String> response) throws JsonProcessingException {
+        return objectMapper.readValue(response.getBody(), objectMapper.getTypeFactory().constructCollectionType(List.class, docType));
     }
 
 

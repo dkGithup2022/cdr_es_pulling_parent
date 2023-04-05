@@ -7,9 +7,9 @@ import com.dk0124.cdr.es.dao.upbit.UpbitTickRepository;
 import com.dk0124.cdr.es.document.upbit.UpbitCandleDoc;
 import com.dk0124.cdr.pullapp.cron.ElasticTestContainer;
 import com.dk0124.cdr.pullapp.cron.EsIndexOps;
-import com.dk0124.cdr.pullapp.cron.upbit.UpbitCandleCron;
-import com.dk0124.cdr.pullapp.cron.upbit.UpbitOrderbookCron;
-import com.dk0124.cdr.pullapp.cron.upbit.UpbitTickCron;
+import com.dk0124.cdr.pullapp.cron.upbit.UpbitCandleUpbitCron;
+import com.dk0124.cdr.pullapp.cron.upbit.UpbitOrderbookUpbitCron;
+import com.dk0124.cdr.pullapp.cron.upbit.UpbitTickUpbitCron;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -67,13 +67,13 @@ class UpbitCronTest {
     }
 
     @Autowired
-    UpbitTickCron upbitTickCron;
+    UpbitTickUpbitCron upbitTickCron;
 
     @Autowired
-    UpbitOrderbookCron upbitOrderbookCron;
+    UpbitOrderbookUpbitCron upbitOrderbookCron;
 
     @Autowired
-    UpbitCandleCron upbitCandleCron;
+    UpbitCandleUpbitCron upbitCandleCron;
 
     @Autowired
     UpbitCandleRepository candleRepository;
@@ -95,7 +95,7 @@ class UpbitCronTest {
     @Test
     void testCronCandleJob() throws Exception {
         // Run the cron job manually
-        UpbitCandleCron cron = upbitCandleCron;
+        UpbitCandleUpbitCron cron = upbitCandleCron;
         cron.run();
 
         // Wait for Elasticsearch indexing to complete

@@ -4,20 +4,27 @@ import com.dk0124.cdr.constants.Uri;
 import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
 import com.dk0124.cdr.es.dao.upbit.UpbitOrderbookRepository;
 import com.dk0124.cdr.es.document.upbit.UpbitOrderbookDoc;
+import com.dk0124.cdr.pullapp.cron.UpbitCronBase;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
 
 @Component
-public class UpbitOrderbookCron extends UpbitCronBase<UpbitOrderbookDoc, UpbitOrderbookRepository> {
+public class UpbitOrderbookUpbitCron extends UpbitCronBase<UpbitOrderbookDoc, UpbitOrderbookRepository> {
     private final String UPBIT_ORDERBOOK_INDEX_PREFIX = "upbit_orderbook";
     private final String TYPE = "orderbook";
 
-    public UpbitOrderbookCron(ObjectMapper objectMapper, UpbitOrderbookRepository respository) {
+    public UpbitOrderbookUpbitCron(ObjectMapper objectMapper, UpbitOrderbookRepository respository) {
         super(objectMapper, respository, new UpbitOrderbookDoc());
         type = TYPE;
+    }
+
+    //@Scheduled(cron = "00 * * * * *")
+    public void cron() throws InterruptedException {
+        run();
     }
 
 
