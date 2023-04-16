@@ -1,10 +1,10 @@
-package com.dk0124.cdr.pullapp.cron.upbit;
+package com.dk0124.cdr.pullapp.cron.polling.upbit;
 
 import com.dk0124.cdr.constants.Uri;
 import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
 import com.dk0124.cdr.es.dao.upbit.UpbitTickRepository;
 import com.dk0124.cdr.es.document.upbit.UpbitTickDoc;
-import com.dk0124.cdr.pullapp.cron.UpbitCronBase;
+import com.dk0124.cdr.pullapp.cron.polling.UpbitCronBase;
 import com.dk0124.cdr.pullapp.util.UpbitDocUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

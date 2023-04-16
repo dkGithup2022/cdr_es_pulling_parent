@@ -1,10 +1,10 @@
-package com.dk0124.cdr.pullapp.cron.bithumb;
+package com.dk0124.cdr.pullapp.cron.polling.bithumb;
 
 import com.dk0124.cdr.constants.Uri;
 import com.dk0124.cdr.constants.coinCode.bithumbCoinCode.BithumbCoinCode;
 import com.dk0124.cdr.es.dao.bithumb.BithumbCandleRespository;
 import com.dk0124.cdr.es.document.bithumb.BithumbCandleDoc;
-import com.dk0124.cdr.pullapp.cron.BithumbCronBase;
+import com.dk0124.cdr.pullapp.cron.polling.BithumbCronBase;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
