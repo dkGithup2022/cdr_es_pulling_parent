@@ -2,29 +2,23 @@ package com.dk0124.cdr.pullapp.cron.upbit;
 
 import com.dk0124.cdr.constants.Uri;
 import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
-
 import com.dk0124.cdr.es.dao.upbit.UpbitTickRepository;
 import com.dk0124.cdr.es.document.upbit.UpbitTickDoc;
 import com.dk0124.cdr.pullapp.cron.UpbitCronBase;
+import com.dk0124.cdr.pullapp.util.UpbitDocUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 
 @Component
 @Slf4j
 public class UpbitTickUpbitCron extends UpbitCronBase<UpbitTickDoc, UpbitTickRepository> {
-    private final String UPBIT_TICK_INDEX_PREFIX = "upbit_tick";
-    private final String TYPE = "tick";
-
     public UpbitTickUpbitCron(ObjectMapper objectMapper, UpbitTickRepository repository) {
         super(objectMapper, repository, new UpbitTickDoc());
-        type = TYPE;
     }
 
     //@Scheduled(cron = "00 * * * * *")
@@ -45,16 +39,11 @@ public class UpbitTickUpbitCron extends UpbitCronBase<UpbitTickDoc, UpbitTickRep
 
     @Override
     protected String getIndex(UpbitTickDoc doc) {
-        String UpbitCandlePrefix = UPBIT_TICK_INDEX_PREFIX;
-        if (UpbitCoinCode.fromString(doc.getCode()) == null)
-            throw new RuntimeException("INVALID CODE");
-        String[] splitted = doc.getCode().toLowerCase(Locale.ROOT).split("-");
-        return UpbitCandlePrefix + "_" + String.join("_", splitted);
-
+        return UpbitDocUtil.generateTickIndex(doc);
     }
 
     @Override
     protected String generateId(UpbitTickDoc upbitTickDoc) {
-        return upbitTickDoc.getCode().toLowerCase(Locale.ROOT) + "_" + upbitTickDoc.getTimestamp();
+        return UpbitDocUtil.generateTickId(upbitTickDoc);
     }
 }

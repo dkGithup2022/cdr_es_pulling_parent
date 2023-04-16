@@ -24,12 +24,12 @@ import java.util.Locale;
 
 @Slf4j
 @Component
-public class BithumbCandleUpbitCron extends BithumbCronBase<BithumbCandleDoc, BithumbCandleRespository> {
+public class BithumbCandleCron extends BithumbCronBase<BithumbCandleDoc, BithumbCandleRespository> {
 
     private final String BITHUMB_CANDLE_INDEX_PREFIX = "bithumb_candle";
     private final String TYPE = "candle";
 
-    public BithumbCandleUpbitCron(ObjectMapper objectMapper, BithumbCandleRespository respository) {
+    public BithumbCandleCron(ObjectMapper objectMapper, BithumbCandleRespository respository) {
         super(objectMapper, respository, new BithumbCandleDoc());
         type = TYPE;
     }
