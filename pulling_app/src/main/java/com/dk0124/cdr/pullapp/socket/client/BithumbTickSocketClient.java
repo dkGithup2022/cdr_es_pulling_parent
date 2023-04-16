@@ -1,2 +1,4 @@
-package com.dk0124.cdr.pullapp.socket.client;public class BithumbTickSocketClient {
+package com.dk0124.cdr.pullapp.socket.client;
+
+public class BithumbTickSocketClient {
 }

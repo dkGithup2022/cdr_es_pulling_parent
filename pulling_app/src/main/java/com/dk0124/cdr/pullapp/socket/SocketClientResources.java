@@ -7,7 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.UUID;
 
-public class ConnectionResourceUtil {
+public class SocketClientResources {
     public static TextMessage getUpbitTickMessage(String payload) {
         return new TextMessage(
                 "[{\"ticket\":\"give_me_ticks_" + UUID.randomUUID() + "\"}," +

@@ -215,6 +215,11 @@ public abstract class UpbitCronBase<T, R extends ElasticsearchRepository> {
 
 2. cdr_elasticsearch 에 bulk insert 기능 넣고 크론에 쓰는  함수 바꾸기 .
 
+</br> 
+
+3. upbit tradetimeutc -> LocalDate 로 변경 하기 .
+
+
 
 
 
