@@ -31,26 +31,40 @@ public abstract class ClientBase implements SocketClientErrorSubscriber {
     private WebsocketClientHandlerBase webSocketHandler;
     private WebSocketSession clientSession;
 
-    public ClientBase(TaskType taskType, VendorType vendorType) {
+    public ClientBase(TaskType taskType, VendorType vendorType, WebsocketClientHandlerBase webSocketHandler) {
+        this.webSocketHandler = webSocketHandler;
         this.taskType = taskType;
         this.vendorType = vendorType;
 
-        if (vendorType == BITHUMB) {
+        if (vendorType == BITHUMB)
             codes = Stream.of(BithumbCoinCode.values()).collect(Collectors.toList());
-        } else if (vendorType == UPBIT) {
+        else if (vendorType == UPBIT)
             codes = Stream.of(UpbitCoinCode.values()).collect(Collectors.toList());
-        } else {
+        else
             throw new RuntimeException("INVALID COIN CODE WHILE INITIALIZING SOCKET CLIENT : " + vendorType);
-        }
+
     }
 
-    public void run() throws URISyntaxException {
+    public void closeConnection() throws IOException {
+        if (clientSession != null && clientSession.isOpen())
+            clientSession.close();
+    }
+
+    public void startConnection() throws URISyntaxException {
         registerHandler();
         ListenableFuture<WebSocketSession> listenableFuture = openNewClientSession();
-        setCallback(listenableFuture);
+        configureConnection(listenableFuture);
     }
 
-    public void registerHandler() {
+    public WebSocketSession getClientSession() {
+        return this.clientSession;
+    }
+
+    public TaskType getTaskType() {
+        return this.taskType;
+    }
+
+    private void registerHandler() {
         this.webSocketHandler.setSubscriber(this);
     }
 
@@ -58,11 +72,13 @@ public abstract class ClientBase implements SocketClientErrorSubscriber {
         return new StandardWebSocketClient().doHandshake(webSocketHandler, null, createUri());
     }
 
-    private void setCallback(ListenableFuture<WebSocketSession> listenableFuture) {
+    private void configureConnection(ListenableFuture<WebSocketSession> listenableFuture) {
         listenableFuture.addCallback(result -> {
+            clientSession = result;
             sendInitialMessage(result);
         }, ex -> {
             log.error("socket connection fail : {}", ex.getMessage());
+            throw new RuntimeException(ex.getMessage());
         });
     }
 
@@ -106,7 +122,5 @@ public abstract class ClientBase implements SocketClientErrorSubscriber {
                 throw new RuntimeException("invalid vendor");
         }
     }
-
 }
-
 

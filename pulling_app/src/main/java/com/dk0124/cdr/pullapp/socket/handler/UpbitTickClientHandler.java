@@ -19,7 +19,6 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class UpbitTickClientHandler extends WebsocketClientHandlerBase {
     private final UpbitTickRepository repository;
-
     private final ObjectMapper objectMapper;
 
     @Override
