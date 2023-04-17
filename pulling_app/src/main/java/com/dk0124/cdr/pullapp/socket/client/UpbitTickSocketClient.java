@@ -2,10 +2,18 @@ package com.dk0124.cdr.pullapp.socket.client;
 
 import com.dk0124.cdr.constants.task.TaskType;
 import com.dk0124.cdr.constants.vendor.VendorType;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketSession;
+import com.dk0124.cdr.pullapp.socket.ClientBase;
+import com.dk0124.cdr.pullapp.socket.WebsocketClientHandlerBase;
 
 
-public abstract class UpbitTickSocketClient {
+public class UpbitTickSocketClient extends ClientBase {
 
+    public UpbitTickSocketClient(TaskType taskType, VendorType vendorType, WebsocketClientHandlerBase webSocketHandler) {
+        super(taskType, vendorType, webSocketHandler);
+    }
+
+    @Override
+    public void notified(String key) {
+
+    }
 }

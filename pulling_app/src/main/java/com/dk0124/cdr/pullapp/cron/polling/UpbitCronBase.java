@@ -69,6 +69,7 @@ public abstract class UpbitCronBase<T, R extends ElasticsearchRepository> {
 
     public void saveAll(List<T> list) {
         for (T doc : list) {
+            log.info(doc.toString());
             respository.index(getIndex(doc), generateId(doc), doc);
         }
     }
