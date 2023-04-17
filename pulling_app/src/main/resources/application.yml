@@ -8,4 +8,4 @@ spring:
 
 logging:
   level:
-    tracer: TRACE
+    tracer: INFO

@@ -16,8 +16,8 @@ import java.util.Date;
 
 @Component
 @Slf4j
-public class UpbitCandleUpbitCron extends UpbitCronBase<UpbitCandleDoc, UpbitCandleRepository> {
-    public UpbitCandleUpbitCron(ObjectMapper objectMapper, UpbitCandleRepository respository) {
+public class UpbitCandleCron extends UpbitCronBase<UpbitCandleDoc, UpbitCandleRepository> {
+    public UpbitCandleCron(ObjectMapper objectMapper, UpbitCandleRepository respository) {
         super(objectMapper, respository, new UpbitCandleDoc());
     }
 

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class UpbitOrderbookUpbitCron extends UpbitCronBase<UpbitOrderbookDoc, UpbitOrderbookRepository> {
-    public UpbitOrderbookUpbitCron(ObjectMapper objectMapper, UpbitOrderbookRepository respository) {
+public class UpbitOrderbookCron extends UpbitCronBase<UpbitOrderbookDoc, UpbitOrderbookRepository> {
+    public UpbitOrderbookCron(ObjectMapper objectMapper, UpbitOrderbookRepository respository) {
         super(objectMapper, respository, new UpbitOrderbookDoc());
     }
 

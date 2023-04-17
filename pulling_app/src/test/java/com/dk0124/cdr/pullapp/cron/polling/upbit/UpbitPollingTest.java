@@ -1,15 +1,14 @@
-package com.dk0124.cdr.pullapp.cron.CronTest;
+package com.dk0124.cdr.pullapp.cron.polling.upbit;
 
 import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
 import com.dk0124.cdr.es.dao.upbit.UpbitCandleRepository;
 import com.dk0124.cdr.es.dao.upbit.UpbitOrderbookRepository;
 import com.dk0124.cdr.es.dao.upbit.UpbitTickRepository;
 import com.dk0124.cdr.es.document.upbit.UpbitCandleDoc;
+import com.dk0124.cdr.es.document.upbit.UpbitOrderbookDoc;
+import com.dk0124.cdr.es.document.upbit.UpbitTickDoc;
 import com.dk0124.cdr.pullapp.cron.ElasticTestContainer;
 import com.dk0124.cdr.pullapp.cron.EsIndexOps;
-import com.dk0124.cdr.pullapp.cron.polling.upbit.UpbitCandleUpbitCron;
-import com.dk0124.cdr.pullapp.cron.polling.upbit.UpbitOrderbookUpbitCron;
-import com.dk0124.cdr.pullapp.cron.polling.upbit.UpbitTickUpbitCron;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,14 +24,22 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.io.IOException;
 import java.util.Locale;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @Testcontainers
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class UpbitCronTest {
+class UpbitPollingTest {
+
+    @Autowired
+    UpbitTickCron upbitTickCron;
+
+    @Autowired
+    UpbitOrderbookCron upbitOrderbookCron;
+
+    @Autowired
+    UpbitCandleCron upbitCandleCron;
 
     @Container
     private static ElasticTestContainer esContainer = new ElasticTestContainer();
@@ -66,14 +73,6 @@ class UpbitCronTest {
         }
     }
 
-    @Autowired
-    UpbitTickUpbitCron upbitTickCron;
-
-    @Autowired
-    UpbitOrderbookUpbitCron upbitOrderbookCron;
-
-    @Autowired
-    UpbitCandleUpbitCron upbitCandleCron;
 
     @Autowired
     UpbitCandleRepository candleRepository;
@@ -95,7 +94,7 @@ class UpbitCronTest {
     @Test
     void testCronCandleJob() throws Exception {
         // Run the cron job manually
-        UpbitCandleUpbitCron cron = upbitCandleCron;
+        UpbitCandleCron cron = upbitCandleCron;
         cron.run();
 
         // Wait for Elasticsearch indexing to complete
@@ -120,7 +119,8 @@ class UpbitCronTest {
     /***
      * 현재 tick api 호출 시 long 으로 오고 있음. DATELOCAL 로 변경 필요. 별도의 DTO 필요할 수도 있음 .
      */
-/*
+
+
     @Test
     void testCronTickJob() throws Exception {
         // Run the cron job manually
@@ -132,7 +132,7 @@ class UpbitCronTest {
 
         // Verify that documents were indexed
         Page<UpbitTickDoc> page = tickRepository.findAll("upbit_tick_krw_btc", PageRequest.of(0, 1000));
-        assertTrue(page.getContent().isEmpty(), "No documents were indexed");
+        assertFalse(page.getContent().isEmpty(), "No documents were indexed");
 
 
         // Verify the contents of the documents
@@ -145,6 +145,8 @@ class UpbitCronTest {
             assertNotNull(tick.getTradeDateUtc(), "Trade Date  is null");
         }
     }
+
+
 
     @Test
     void testCronOrderbookJob() throws Exception {
@@ -171,11 +173,5 @@ class UpbitCronTest {
         }
     }
 
- */
+
 }
-
-
-
-
-
-

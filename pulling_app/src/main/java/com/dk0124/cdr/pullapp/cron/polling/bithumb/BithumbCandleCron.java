@@ -34,7 +34,7 @@ public class BithumbCandleCron extends BithumbCronBase<BithumbCandleDoc, Bithumb
         type = TYPE;
     }
 
-    @Scheduled(cron = "00 * * * * *")
+    //@Scheduled(cron = "00 * * * * *")
     public void cron() throws InterruptedException, JsonProcessingException {
         run();
     }

@@ -16,8 +16,8 @@ import java.util.Date;
 
 @Component
 @Slf4j
-public class UpbitTickUpbitCron extends UpbitCronBase<UpbitTickDoc, UpbitTickRepository> {
-    public UpbitTickUpbitCron(ObjectMapper objectMapper, UpbitTickRepository repository) {
+public class UpbitTickCron extends UpbitCronBase<UpbitTickDoc, UpbitTickRepository> {
+    public UpbitTickCron(ObjectMapper objectMapper, UpbitTickRepository repository) {
         super(objectMapper, repository, new UpbitTickDoc());
     }
 

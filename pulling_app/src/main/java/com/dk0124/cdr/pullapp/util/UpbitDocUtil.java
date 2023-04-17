@@ -17,13 +17,11 @@ public class UpbitDocUtil {
 
     // 틱 인덱스 생성
     public static String generateTickIndex(UpbitTickDoc tickDoc) {
-        String prefix = TICK_INDEX_PREFIX;
-        String code = tickDoc.getCode().toLowerCase(Locale.ROOT);
-        if (UpbitCoinCode.fromString(code) == null) {
-            throw new IllegalArgumentException("Invalid code: " + code);
-        }
-        String[] splitted = code.split("-");
-        return prefix + "_" + String.join("_", splitted);
+        if (UpbitCoinCode.fromString(tickDoc.getCode().toUpperCase(Locale.ROOT)) == null)
+            throw new IllegalArgumentException("Invalid market: " +  tickDoc.toString());
+
+        String[] splitted =  tickDoc.getCode().toLowerCase(Locale.ROOT).split("-");
+        return TICK_INDEX_PREFIX + "_" + String.join("_", splitted);
     }
 
     // 틱 ID 생성
@@ -35,13 +33,11 @@ public class UpbitDocUtil {
 
     // 캔들 인덱스 생성
     public static String generateCandleIndex(UpbitCandleDoc candleDoc) {
-        String prefix = CANDLE_INDEX_PREFIX;
-        String market = candleDoc.getMarket().toLowerCase(Locale.ROOT);
-        if (UpbitCoinCode.fromString(market) == null) {
-            throw new IllegalArgumentException("Invalid market: " + market);
-        }
-        String[] splitted = market.split("-");
-        return prefix + "_" + String.join("_", splitted);
+        if (UpbitCoinCode.fromString(candleDoc.getMarket().toUpperCase(Locale.ROOT)) == null)
+            throw new IllegalArgumentException("Invalid market: " + candleDoc.toString());
+
+        String[] splitted = candleDoc.getMarket().toLowerCase(Locale.ROOT).split("-");
+        return CANDLE_INDEX_PREFIX + "_" + String.join("_", splitted);
     }
 
     // 캔들 ID 생성
@@ -53,13 +49,12 @@ public class UpbitDocUtil {
 
     // 오더북 인덱스 생성
     public static String generateOrderbookIndex(UpbitOrderbookDoc orderbookDoc) {
-        String prefix = ORDERBOOK_INDEX_PREFIX;
-        String code = orderbookDoc.getCode().toLowerCase(Locale.ROOT);
-        if (UpbitCoinCode.fromString(code) == null) {
-            throw new IllegalArgumentException("Invalid code: " + code);
-        }
-        String[] splitted = code.split("-");
-        return prefix + "_" + String.join("_", splitted);
+
+        if (UpbitCoinCode.fromString(orderbookDoc.getCode().toUpperCase(Locale.ROOT)) == null)
+            throw new IllegalArgumentException("Invalid market: " +  orderbookDoc.toString());
+
+        String[] splitted =  orderbookDoc.getCode().toLowerCase(Locale.ROOT).split("-");
+        return ORDERBOOK_INDEX_PREFIX + "_" + String.join("_", splitted);
     }
 
     // 오더북 ID 생성
