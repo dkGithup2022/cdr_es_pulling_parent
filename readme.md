@@ -161,6 +161,90 @@ public abstract class UpbitCronBase<T, R extends ElasticsearchRepository> {
 
 ```
 
+
+</br>
+
+
+---
+
+
+### Socket client base 
+
+```java
+
+
+@Slf4j
+public abstract class ClientBase implements SocketClientErrorSubscriber {
+
+    private final TaskType taskType;
+    private final VendorType vendorType;
+    private final List<CoinCode> codes;
+    private WebsocketClientHandlerBase webSocketHandler;
+    private WebSocketSession clientSession;
+
+    public ClientBase(TaskType taskType, VendorType vendorType, WebsocketClientHandlerBase webSocketHandler) {
+        this.webSocketHandler = webSocketHandler;
+        this.taskType = taskType;
+        this.vendorType = vendorType;
+
+        if (vendorType == BITHUMB)
+            codes = Stream.of(BithumbCoinCode.values()).collect(Collectors.toList());
+        else if (vendorType == UPBIT)
+            codes = Stream.of(UpbitCoinCode.values()).collect(Collectors.toList());
+        else
+            throw new RuntimeException("INVALID COIN CODE WHILE INITIALIZING SOCKET CLIENT : " + vendorType);
+
+    }
+
+    public void closeConnection() throws IOException {
+        if (clientSession != null && clientSession.isOpen())
+            clientSession.close();
+    }
+
+    public void startConnection() throws URISyntaxException {
+        registerHandler();
+        ListenableFuture<WebSocketSession> listenableFuture = openNewClientSession();
+        configureConnection(listenableFuture);
+    }
+
+    public WebSocketSession getClientSession() {
+        return this.clientSession;
+    }
+
+    public TaskType getTaskType() {
+        return this.taskType;
+    }
+
+    private void registerHandler() {
+        this.webSocketHandler.setSubscriber(this);
+    }
+
+    private ListenableFuture<WebSocketSession> openNewClientSession() throws URISyntaxException {
+        return new StandardWebSocketClient().doHandshake(webSocketHandler, null, createUri());
+    }
+
+    private void configureConnection(ListenableFuture<WebSocketSession> listenableFuture) {
+        listenableFuture.addCallback(result -> {
+            clientSession = result;
+            sendInitialMessage(result);
+        }, ex -> {
+            log.error("socket connection fail : {}", ex.getMessage());
+            throw new RuntimeException(ex.getMessage());
+        });
+    }
+    .....
+
+
+
+
+
+```
+
+
+
+</br>
+
+
 ---
 
 ### 테스트 
